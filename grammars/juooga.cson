@@ -1,8 +1,9 @@
+'scopeName': 'source.juooga'
+'name': 'Juooga'
 fileTypes: [
   "juooga"
   "juo"
 ]
-firstLineMatch: "^#!/.*\\bjuooga[\\d\\.]*\\b"
 name: "Juooga"
 patterns: [
   {
@@ -12,6 +13,7 @@ patterns: [
   {
     include: "#comment"
   }
+  
   {
     comment: "Match identifiers in ALL_CAPS as constants, except when followed by `.`, `(`, `'`, or `\"`."
     match: "\\b([[:upper:]_][[:upper:][:digit:]_]*)\\b(?![\\.\\(\\'\\\"])"
@@ -536,19 +538,54 @@ patterns: [
     ]
   }
   {
-    comment: "print statement that should only be matched after function calls"
+    comment: "[EN]Print statement that should only be matched after function calls"
     match: "(?<!\\.)\\b(print)(?=\\s|$)"
     name: "keyword.other.print.juooga"
   }
   {
-    comment: "imprimir statement that should only be matched after function calls"
+    comment: "[ES]imprimir statement that should only be matched after function calls"
     match: "(?<!\\.)\\b(imprimir)(?=\\s|$)"
     name: "keyword.other.imprimir.juooga"
   }
   {
-    comment: "impressão statement that should only be matched after function calls"
+    comment: "[FRA]impression statement that should only be matched after function calls"
+    match: "(?<!\\.)\\b(impression)(?=\\s|$)"
+    name: "keyword.other.impression.juooga"
+  }
+  {
+    comment: "[RUS]напечатать statement that should only be matched after function calls"
+    match: "(?<!\\.)\\b(напечатать)(?=\\s|$)"
+    name: "keyword.other.напечатать.juooga"
+  }
+  {
+    comment: "[ITA]stampare statement that should only be matched after function calls"
+    match: "(?<!\\.)\\b(stampare)(?=\\s|$)"
+    name: "keyword.other.stampare.juooga"
+  }
+  {
+    comment: "[GER]drucken statement that should only be matched after function calls"
+    match: "(?<!\\.)\\b(drucken)(?=\\s|$)"
+    name: "keyword.other.drucken.juooga"
+  }
+  {
+    comment: "[POR]impressão statement that should only be matched after function calls"
     match: "(?<!\\.)\\b(impressão)(?=\\s|$)"
     name: "keyword.other.impressão.juooga"
+  }
+  {
+    comment: "[HIN]भारतीय statement that should only be matched after function calls"
+    match: "(?<!\\.)\\b(भारतीय)(?=\\s|$)"
+    name: "keyword.other.भारतीय.juooga"
+  }
+  {
+    comment: "[JPN]印刷する statement that should only be matched after function calls"
+    match: "(?<!\\.)\\b(印刷する)(?=\\s|$)"
+    name: "keyword.other.印刷する.juooga"
+  }
+  {
+    comment: "[CHI]打印 statement that should only be matched after function calls"
+    match: "(?<!\\.)\\b(打印)(?=\\s|$)"
+    name: "keyword.other.打印.juooga"
   }
   {
     begin: "(?=[[:alpha:]_][[:alnum:]_]*(?:\\s*\\.\\s*[[:alpha:]_][[:alnum:]_]*)*\\s*\\[)"
@@ -794,7 +831,7 @@ repository:
           								globals | hasattr | hash | help | hex | id | input | int |
           								isinstance | issubclass | iter | len | list | locals | long | map |
           								max | memoryview | min | next | object | oct | open | ord | pow |
-          								print | imprimir | property | range | raw_input | reduce | reload | repr |
+          								print | property | range | raw_input | reduce | reload | repr |
           								reversed | round | set | setattr | slice | sorted | staticmethod |
           								str | sum | super | tuple | type | unichr | unicode | vars |
           								xrange | zip)
@@ -1086,7 +1123,7 @@ repository:
       				      \\b (
       				        False | None | True | and | as | assert | break | class | continue | def |
       				        del | elif | else | except | exec | finally | for | from | global | if |
-      				        import | in | is | lambda | nonlocal | not | or | pass | print | imprimir | raise |
+      				        import | in | is | lambda | nonlocal | not | or | pass | print | raise |
       				        return | try | while | with | yield)
       				      \\b
     '''

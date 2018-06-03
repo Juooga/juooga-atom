@@ -1,0 +1,41 @@
+// Juooga Programming Language package for Atom
+//
+// Add Juooga Logo for a Juooga file (.juo or .juooga) opened in Atom
+// MIT License (c) 2018 Juooga and/or its contributors
+// MIT License (c) 2018 Carlos Abraham Hernandez
+//
+// June 2, 2018
+// Author: Carlos Abraham Hernandez
+
+.file-icon(@filename) {
+    background-size: contain;
+    background-position: center;
+    background-repeat:  no-repeat;
+    content: "";
+    font-size: 1.25em;
+    height: 1.5rem;
+    vertical-align: -4px;
+    background-image: url("atom://language-juooga/icon/@{filename}.svg");
+}
+
+.grammar-icon(@filename) {
+    background-size: contain;
+    background-position: center;
+    background-repeat:  no-repeat;
+    background-image: url("atom://language-juooga/icon/@{filename}.svg");
+    content: "";
+    display: block;
+    float: right;
+    height: 1.7em;
+    width: 1.7em;
+    margin-top: 0.15em;
+}
+
+.tab,
+.fuzzy-finder .list-group,
+.tree-view .file {
+
+    [data-name$=".juooga"]:before,
+    [data-name$=".juo"]:before { .file-icon(juooga); }
+
+}
