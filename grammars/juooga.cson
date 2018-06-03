@@ -1,0 +1,2262 @@
+fileTypes: [
+  "juooga"
+  "juo"
+]
+firstLineMatch: "^#!/.*\\bjuooga[\\d\\.]*\\b"
+name: "Juooga"
+patterns: [
+  {
+    match: "(?<!^from\\s|^import\\s)(\\.{3})"
+    name: "support.type.ellipsis.juooga"
+  }
+  {
+    include: "#comment"
+  }
+  {
+    comment: "Match identifiers in ALL_CAPS as constants, except when followed by `.`, `(`, `'`, or `\"`."
+    match: "\\b([[:upper:]_][[:upper:][:digit:]_]*)\\b(?![\\.\\(\\'\\\"])"
+    name: "constant.other.allcaps.juooga"
+  }
+  {
+    match: "\\b(?i:(0x\\h+)L)"
+    name: "constant.numeric.integer.hexadecimal.long.juooga"
+  }
+  {
+    match: "\\b(?i:(0x\\h+))"
+    name: "constant.numeric.integer.hexadecimal.juooga"
+  }
+  {
+    match: "\\b(?i:(0b[01]+)L)"
+    name: "constant.numeric.integer.binary.long.juooga"
+  }
+  {
+    match: "\\b(?i:(0b[01]+))"
+    name: "constant.numeric.integer.binary.juooga"
+  }
+  {
+    match: "\\b(?i:(0[o]?[0-7]+)L)"
+    name: "constant.numeric.integer.octal.long.juooga"
+  }
+  {
+    match: "\\b(?i:(0[o]?[0-7]+))"
+    name: "constant.numeric.integer.octal.juooga"
+  }
+  {
+    match: "\\b(?i:(((\\d+(\\.(?=[^[:alpha:]_])\\d*)?|(?<=[^[:alnum:]_])\\.\\d+)(e[\\-\\+]?\\d+)?))J)"
+    name: "constant.numeric.complex.juooga"
+  }
+  {
+    match: "\\b(?i:(\\d+\\.\\d*(e[\\-\\+]?\\d+)?))(?=[^[:alpha:]_])"
+    name: "constant.numeric.float.juooga"
+  }
+  {
+    match: "(?<=[^[:alnum:]_])(?i:(\\.\\d+(e[\\-\\+]?\\d+)?))"
+    name: "constant.numeric.float.juooga"
+  }
+  {
+    match: "\\b(?i:(\\d+e[\\-\\+]?\\d+))"
+    name: "constant.numeric.float.juooga"
+  }
+  {
+    match: "\\b(?i:([1-9]+[0-9]*|0)L)"
+    name: "constant.numeric.integer.decimal.long.juooga"
+  }
+  {
+    match: "\\b([1-9]+[0-9]*|0)"
+    name: "constant.numeric.integer.decimal.juooga"
+  }
+  {
+    match: "\\b(None|True|False|Ellipsis|NotImplemented)\\b"
+    name: "constant.language.juooga"
+  }
+  {
+    match: "\\b(global|nonlocal)\\b"
+    name: "storage.modifier.$1.juooga"
+  }
+  {
+    match: "\\b(?:(import|from|as))\\b"
+    name: "keyword.control.import.$1.juooga"
+  }
+  {
+    comment: "keyword operators that evaluate to True or False"
+    match: "\\b(and|in|is|not|or)\\b"
+    name: "keyword.operator.logical.juooga"
+  }
+  {
+    comment: "keywords that do not fit into other groups."
+    match: "\\b(assert|del)\\b"
+    name: "keyword.other.juooga"
+  }
+  {
+    match: "<>"
+    name: "invalid.deprecated.operator.juooga"
+  }
+  {
+    match: "(?<!\\.)(apply|buffer|coerce|intern)\\s*(?=\\()"
+    name: "invalid.deprecated.function.juooga"
+  }
+  {
+    match: "<\\=|>\\=|\\=\\=|<|>|\\!\\="
+    name: "keyword.operator.comparison.juooga"
+  }
+  {
+    match: "\\+\\=|-\\=|\\*\\=|/\\=|//\\=|%\\=|&\\=|\\|\\=|\\^\\=|>>\\=|<<\\=|\\*\\*\\=|@\\="
+    name: "keyword.operator.assignment.augmented.juooga"
+  }
+  {
+    match: "\\+|\\-|\\*|\\*\\*|/|//|%|<<|>>|&|\\||\\^|~|(?!^)@"
+    name: "keyword.operator.arithmetic.juooga"
+  }
+  {
+    match: "\\="
+    name: "keyword.operator.assignment.juooga"
+  }
+  {
+    begin: "^\\s*(class)\\s+(?=[[:alpha:]_][[:alnum:]_]*\\s*\\:)"
+    beginCaptures:
+      "1":
+        name: "storage.type.class.juooga"
+    contentName: "entity.name.type.class.juooga"
+    end: "\\s*(:)"
+    endCaptures:
+      "1":
+        name: "punctuation.section.class.begin.juooga"
+    name: "meta.class.old-style.juooga"
+    patterns: [
+      {
+        include: "#entity_name_class"
+      }
+    ]
+  }
+  {
+    begin: "^\\s*(class)\\s+(?=[[:alpha:]_][[:alnum:]_]*\\s*\\()"
+    beginCaptures:
+      "1":
+        name: "storage.type.class.juooga"
+    end: "(\\))\\s*(?:(\\:)|(.*$\\n?))"
+    endCaptures:
+      "1":
+        name: "punctuation.definition.inheritance.end.juooga"
+      "2":
+        name: "punctuation.section.class.begin.juooga"
+      "3":
+        name: "invalid.illegal.missing-section-begin.juooga"
+    name: "meta.class.juooga"
+    patterns: [
+      {
+        begin: "(?=[[:alpha:]_][[:alnum:]_]*)"
+        contentName: "entity.name.type.class.juooga"
+        end: "(?![[:alnum:]_])"
+        patterns: [
+          {
+            include: "#entity_name_class"
+          }
+        ]
+      }
+      {
+        begin: "(\\()"
+        beginCaptures:
+          "1":
+            name: "punctuation.definition.inheritance.begin.juooga"
+        contentName: "meta.class.inheritance.juooga"
+        end: "(?=\\)|:)"
+        patterns: [
+          {
+            begin: "(?<=\\(|,)\\s*"
+            contentName: "entity.other.inherited-class.juooga"
+            end: "\\s*(?:(,)|(?=\\)))"
+            endCaptures:
+              "1":
+                name: "punctuation.separator.inheritance.juooga"
+            patterns: [
+              {
+                include: "$self"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  {
+    begin: "^\\s*(class)\\s+(?=[[:alpha:]_][[:alnum:]_]*)"
+    beginCaptures:
+      "1":
+        name: "storage.type.class.juooga"
+    end: "(\\()|(\\s*$\\n?|#.*$\\n?)"
+    endCaptures:
+      "1":
+        name: "punctuation.definition.inheritance.begin.juooga"
+      "2":
+        name: "invalid.illegal.missing-inheritance.juooga"
+    name: "meta.class.juooga"
+    patterns: [
+      {
+        begin: "(?=[[:alpha:]_][[:alnum:]_]*)"
+        contentName: "entity.name.type.class.juooga"
+        end: "(?![[:alnum:]_])"
+        patterns: [
+          {
+            include: "#entity_name_function"
+          }
+        ]
+      }
+    ]
+  }
+  {
+    begin: "\\s*(?:(async)\\s+)?(def)\\s+(?=[[:alpha:]_][[:alnum:]_]*\\s*\\()"
+    beginCaptures:
+      "1":
+        name: "storage.modifier.async.juooga"
+      "2":
+        name: "storage.type.function.juooga"
+    end: "(\\:)"
+    endCaptures:
+      "1":
+        name: "punctuation.section.function.begin.juooga"
+    name: "meta.function.juooga"
+    patterns: [
+      {
+        begin: "(?=[[:alpha:]_][[:alnum:]_]*)"
+        contentName: "entity.name.function.juooga"
+        end: "(?![[:alnum:]_])"
+        patterns: [
+          {
+            include: "#entity_name_function"
+          }
+        ]
+      }
+      {
+        begin: "(\\()"
+        beginCaptures:
+          "1":
+            name: "punctuation.definition.parameters.begin.juooga"
+        contentName: "meta.function.parameters.juooga"
+        end: "(?=\\)\\s*(?:\\:|-\\>))"
+        patterns: [
+          {
+            include: "#annotated_arguments"
+          }
+          {
+            include: "#keyword_arguments"
+          }
+          {
+            include: "#comment"
+          }
+          {
+            captures:
+              "1":
+                name: "variable.parameter.function.language.juooga"
+              "2":
+                name: "variable.parameter.function.juooga"
+              "3":
+                name: "punctuation.separator.parameters.juooga"
+            match: "\\b(?:(self|cls)|([[:alpha:]_][[:alnum:]_]*))\\s*(?:(,)|(?=[\\n\\)]))"
+          }
+        ]
+      }
+      {
+        begin: "(\\))\\s*(\\->)"
+        beginCaptures:
+          "1":
+            name: "punctuation.definition.parameters.end.juooga"
+          "2":
+            name: "punctuation.separator.annotation.result.juooga"
+        end: "(?=\\:)"
+        patterns: [
+          {
+            include: "$self"
+          }
+        ]
+      }
+    ]
+  }
+  {
+    begin: "\\s*(?:(async)\\s+)?(def)\\s+(?=[[:alpha:]_][[:alnum:]_]*)"
+    beginCaptures:
+      "1":
+        name: "storage.modifier.async.juooga"
+      "2":
+        name: "storage.type.function.juooga"
+    end: "(\\()|\\s*($\\n?|#.*$\\n?)"
+    endCaptures:
+      "1":
+        name: "punctuation.definition.parameters.begin.juooga"
+      "2":
+        name: "invalid.illegal.missing-parameters.juooga"
+    name: "meta.function.juooga"
+    patterns: [
+      {
+        begin: "(?=[[:alpha:]_][[:alnum:]_]*)"
+        contentName: "entity.name.function.juooga"
+        end: "(?![[:alnum:]_])"
+        patterns: [
+          {
+            include: "#entity_name_function"
+          }
+        ]
+      }
+    ]
+  }
+  {
+    captures:
+      "1":
+        name: "storage.modifier.async.juooga"
+      "2":
+        name: "storage.type.function.juooga"
+      "3":
+        name: "storage.type.function.juooga"
+    match: "\\b(?:(?:(async)\\s+)?(def)|(lambda))\\b"
+  }
+  {
+    comment: '''
+      Keywords that delimit flow blocks or alter flow from within a
+      					   block.
+
+      					   This block should be matched *after* meta.function.juooga to
+      					   let 'async def' be matched *first*.
+
+    '''
+    match: '''
+      (?x) \\b(
+      						async | await | break | continue | elif | else | except | finally | for |
+      						if | pass | raise | return | try | while | with |
+      						(yield(?:\\s+from)?)
+      					)\\b
+
+    '''
+    name: "keyword.control.flow.juooga"
+  }
+  {
+    begin: "(lambda)(?=\\s+|:)"
+    beginCaptures:
+      "1":
+        name: "storage.type.function.inline.juooga"
+    end: "(\\:)"
+    endCaptures:
+      "1":
+        name: "punctuation.definition.parameters.end.juooga"
+      "2":
+        name: "punctuation.section.function.begin.juooga"
+      "3":
+        name: "invalid.illegal.missing-section-begin.juooga"
+    name: "meta.function.inline.juooga"
+    patterns: [
+      {
+        begin: "\\s+"
+        contentName: "meta.function.inline.parameters.juooga"
+        end: "(?=\\:)"
+        patterns: [
+          {
+            include: "#keyword_arguments"
+          }
+          {
+            captures:
+              "1":
+                name: "variable.parameter.function.juooga"
+              "2":
+                name: "punctuation.separator.parameters.juooga"
+            match: "\\b([[:alpha:]_][[:alnum:]_]*)\\s*(?:(,)|(?=[\\n\\)\\:]))"
+          }
+        ]
+      }
+    ]
+  }
+  {
+    begin: "^\\s*(?=@\\s*[[:alpha:]_][[:alnum:]_]*(?:\\s*\\.\\s*[[:alpha:]_][[:alnum:]_]*)*\\s*\\()"
+    comment: "a decorator may be a function call which returns a decorator."
+    end: "(\\))"
+    endCaptures:
+      "1":
+        name: "punctuation.definition.arguments.end.juooga"
+    name: "meta.function.decorator.juooga"
+    patterns: [
+      {
+        begin: "(?=(@)\\s*[[:alpha:]_][[:alnum:]_]*(?:\\s*\\.\\s*[[:alpha:]_][[:alnum:]_]*)*\\s*\\()"
+        beginCaptures:
+          "1":
+            name: "punctuation.definition.decorator.juooga"
+        contentName: "entity.name.function.decorator.juooga"
+        end: "(?=\\s*\\()"
+        patterns: [
+          {
+            include: "#dotted_name"
+          }
+        ]
+      }
+      {
+        begin: "(\\()"
+        beginCaptures:
+          "1":
+            name: "punctuation.definition.arguments.begin.juooga"
+        contentName: "meta.function.decorator.arguments.juooga"
+        end: "(?=\\))"
+        patterns: [
+          {
+            include: "#keyword_arguments"
+          }
+          {
+            include: "$self"
+          }
+        ]
+      }
+    ]
+  }
+  {
+    begin: "^\\s*(?=@\\s*[[:alpha:]_][[:alnum:]_]*(?:\\s*\\.\\s*[[:alpha:]_][[:alnum:]_]*)*)"
+    contentName: "entity.name.function.decorator.juooga"
+    end: "(?=\\s|$\\n?|#)"
+    name: "meta.function.decorator.juooga"
+    patterns: [
+      {
+        begin: "(?=(@)\\s*[[:alpha:]_][[:alnum:]_]*(\\s*\\.\\s*[[:alpha:]_][[:alnum:]_]*)*)"
+        beginCaptures:
+          "1":
+            name: "punctuation.definition.decorator.juooga"
+        end: "(?=\\s|$\\n?|#)"
+        patterns: [
+          {
+            include: "#dotted_name"
+          }
+        ]
+      }
+    ]
+  }
+  {
+    begin: "(?<=\\)|\\])\\s*(\\()"
+    beginCaptures:
+      "1":
+        name: "punctuation.definition.arguments.begin.juooga"
+    contentName: "meta.function-call.arguments.juooga"
+    end: "(\\))"
+    endCaptures:
+      "1":
+        name: "punctuation.definition.arguments.end.juooga"
+    name: "meta.function-call.juooga"
+    patterns: [
+      {
+        include: "#keyword_arguments"
+      }
+      {
+        include: "$self"
+      }
+    ]
+  }
+  {
+    include: "#builtin_types"
+  }
+  {
+    include: "#builtin_functions_name"
+  }
+  {
+    include: "#builtin_functions_call"
+  }
+  {
+    include: "#errors_warnings_exceptions"
+  }
+  {
+    include: "#magic_function_names"
+  }
+  {
+    include: "#magic_function_calls"
+  }
+  {
+    include: "#docstrings"
+  }
+  {
+    include: "#magic_variable_names"
+  }
+  {
+    begin: "\\b(self|cls)\\b\\s*(?=(\\())"
+    beginCaptures:
+      "1":
+        name: "variable.language.juooga"
+      "2":
+        name: "punctuation.definition.arguments.begin.juooga"
+    end: "(\\))"
+    endCaptures:
+      "1":
+        name: "punctuation.definition.arguments.end.juooga"
+    name: "meta.function-call.juooga"
+    patterns: [
+      {
+        begin: "(\\()"
+        beginCaptures:
+          "1":
+            name: "punctuation.definition.arguments.begin.juooga"
+        contentName: "meta.function-call.arguments.juooga"
+        end: "(?=(\\)))"
+        endCaptures:
+          "1":
+            name: "punctuation.definition.arguments.end.juooga"
+        patterns: [
+          {
+            include: "#keyword_arguments"
+          }
+          {
+            include: "$self"
+          }
+        ]
+      }
+    ]
+  }
+  {
+    include: "#language_variables"
+  }
+  {
+    include: "#generic_object_names"
+  }
+  {
+    begin: "(?:\\.)?([[:alpha:]_][[:alnum:]_]*)\\s*(?=(\\())"
+    beginCaptures:
+      "1":
+        name: "meta.function-call.generic.juooga"
+    end: "(\\))"
+    endCaptures:
+      "1":
+        name: "punctuation.definition.arguments.end.juooga"
+    name: "meta.function-call.juooga"
+    patterns: [
+      {
+        begin: "(\\()"
+        beginCaptures:
+          "1":
+            name: "punctuation.definition.arguments.begin.juooga"
+        contentName: "meta.function-call.arguments.juooga"
+        end: "(?=\\))"
+        patterns: [
+          {
+            include: "#keyword_arguments"
+          }
+          {
+            include: "$self"
+          }
+        ]
+      }
+    ]
+  }
+  {
+    comment: "print statement that should only be matched after function calls"
+    match: "(?<!\\.)\\b(print)(?=\\s|$)"
+    name: "keyword.other.print.juooga"
+  }
+  {
+    comment: "imprimir statement that should only be matched after function calls"
+    match: "(?<!\\.)\\b(imprimir)(?=\\s|$)"
+    name: "keyword.other.imprimir.juooga"
+  }
+  {
+    comment: "impressão statement that should only be matched after function calls"
+    match: "(?<!\\.)\\b(impressão)(?=\\s|$)"
+    name: "keyword.other.impressão.juooga"
+  }
+  {
+    begin: "(?=[[:alpha:]_][[:alnum:]_]*(?:\\s*\\.\\s*[[:alpha:]_][[:alnum:]_]*)*\\s*\\[)"
+    end: "(\\])"
+    endCaptures:
+      "1":
+        name: "punctuation.definition.arguments.end.juooga"
+    name: "meta.item-access.juooga"
+    patterns: [
+      {
+        begin: "(?=[[:alpha:]_][[:alnum:]_]*(?:\\s*\\.\\s*[[:alpha:]_][[:alnum:]_]*)*\\s*\\[)"
+        end: "(?=\\s*\\[)"
+        patterns: [
+          {
+            include: "#dotted_name"
+          }
+        ]
+      }
+      {
+        begin: "(\\[)"
+        beginCaptures:
+          "1":
+            name: "punctuation.definition.arguments.begin.juooga"
+        contentName: "meta.item-access.arguments.juooga"
+        end: "(?=\\])"
+        patterns: [
+          {
+            include: "$self"
+          }
+        ]
+      }
+      {
+        begin: "\\G"
+        end: "(?=\\[)"
+        patterns: [
+          {
+            include: "#dotted_name"
+          }
+        ]
+      }
+    ]
+  }
+  {
+    captures:
+      "1":
+        name: "storage.type.class.juooga"
+    match: "\\b(class)\\b"
+  }
+  {
+    include: "#line_continuation"
+  }
+  {
+    include: "#string_quoted_single"
+  }
+  {
+    include: "#string_quoted_double"
+  }
+  {
+    include: "#dotted_name"
+  }
+  {
+    begin: "(\\()"
+    end: "(\\))"
+    patterns: [
+      {
+        include: "$self"
+      }
+    ]
+  }
+  {
+    captures:
+      "1":
+        name: "punctuation.definition.list.begin.juooga"
+      "2":
+        name: "meta.empty-list.juooga"
+      "3":
+        name: "punctuation.definition.list.end.juooga"
+    match: "(\\[)(\\s*(\\]))\\b"
+  }
+  {
+    begin: "(\\[)"
+    beginCaptures:
+      "1":
+        name: "punctuation.definition.list.begin.juooga"
+    end: "(\\])"
+    endCaptures:
+      "1":
+        name: "punctuation.definition.list.end.juooga"
+    name: "meta.structure.list.juooga"
+    patterns: [
+      {
+        begin: "(?<=\\[|\\,)\\s*(?![\\],])"
+        contentName: "meta.structure.list.item.juooga"
+        end: "\\s*(?:(,)|(?=\\]))"
+        endCaptures:
+          "1":
+            name: "punctuation.separator.list.juooga"
+        patterns: [
+          {
+            include: "$self"
+          }
+        ]
+      }
+    ]
+  }
+  {
+    captures:
+      "1":
+        name: "punctuation.definition.tuple.begin.juooga"
+      "2":
+        name: "meta.empty-tuple.juooga"
+      "3":
+        name: "punctuation.definition.tuple.end.juooga"
+    match: "(\\()(\\s*(\\)))"
+    name: "meta.structure.tuple.juooga"
+  }
+  {
+    captures:
+      "1":
+        name: "punctuation.definition.dictionary.begin.juooga"
+      "2":
+        name: "meta.empty-dictionary.juooga"
+      "3":
+        name: "punctuation.definition.dictionary.end.juooga"
+    match: "(\\{)(\\s*(\\}))"
+    name: "meta.structure.dictionary.juooga"
+  }
+  {
+    begin: "(\\{)"
+    beginCaptures:
+      "1":
+        name: "punctuation.definition.dictionary.begin.juooga"
+    end: "(\\})"
+    endCaptures:
+      "1":
+        name: "punctuation.definition.dictionary.end.juooga"
+    name: "meta.structure.dictionary.juooga"
+    patterns: [
+      {
+        begin: "(?<=\\{|\\,|^)\\s*(?![\\},])"
+        contentName: "meta.structure.dictionary.key.juooga"
+        end: "\\s*(?:(?=\\})|(\\:))"
+        endCaptures:
+          "1":
+            name: "punctuation.separator.valuepair.dictionary.juooga"
+        patterns: [
+          {
+            include: "$self"
+          }
+        ]
+      }
+      {
+        begin: "(?<=\\:|^)\\s*"
+        contentName: "meta.structure.dictionary.value.juooga"
+        end: "\\s*(?:(?=\\})|(,))"
+        endCaptures:
+          "1":
+            name: "punctuation.separator.dictionary.juooga"
+        patterns: [
+          {
+            include: "$self"
+          }
+        ]
+      }
+    ]
+  }
+]
+repository:
+  annotated_arguments:
+    begin: "\\b([[:alpha:]_][[:alnum:]_]*)\\s*(:)|(?=\\()"
+    beginCaptures:
+      "1":
+        name: "variable.parameter.function.juooga"
+      "2":
+        name: "punctuation.separator.annotation.juooga"
+    end: "\\s*(?:(,)|(?=$\\n?|[\\)\\:]))"
+    endCaptures:
+      "1":
+        name: "punctuation.separator.parameters.juooga"
+    patterns: [
+      {
+        include: "#annotated_group"
+      }
+      {
+        match: "="
+        name: "keyword.operator.assignment.juooga"
+      }
+      {
+        include: "$self"
+      }
+    ]
+  annotated_group:
+    begin: "(\\()"
+    beginCaptures:
+      "1":
+        name: "punctuation.definition.parameters-group.begin.juooga"
+    end: "(\\))"
+    endCaptures:
+      "1":
+        name: "punctuation.definition.parameters-group.end.juooga"
+    patterns: [
+      {
+        begin: "\\b([[:alpha:]_][[:alnum:]_]*)\\s*(:)"
+        beginCaptures:
+          "1":
+            name: "variable.parameter.function.juooga"
+          "2":
+            name: "punctuation.separator.annotation.juooga"
+        end: "\\s*(?:(,)|(?=$\\n?|\\)))"
+        endCaptures:
+          "1":
+            name: "punctuation.separator.parameters.juooga"
+        patterns: [
+          {
+            include: "$self"
+          }
+        ]
+      }
+      {
+        begin: "\\b([[:alpha:]_][[:alnum:]_]*)"
+        beginCaptures:
+          "1":
+            name: "variable.parameter.function.juooga"
+        end: "\\s*(?:(,)|(?=$\\n?|\\)))"
+        endCaptures:
+          "1":
+            name: "punctuation.separator.parameters.juooga"
+      }
+      {
+        include: "#comment"
+      }
+    ]
+  builtin_functions_call:
+    patterns: [
+      {
+        begin: '''
+          (?x)
+          							(?<!\\.)\\b(
+          								__import__ | abs | all | any | ascii | basestring | bin | bool |
+          								bytearray | bytes | callable | chr | classmethod | cmp | compile |
+          								complex | delattr | dict | dir | divmod | enumerate | eval | exec |
+          								execfile | file | filter | float | format | frozenset | getattr |
+          								globals | hasattr | hash | help | hex | id | input | int |
+          								isinstance | issubclass | iter | len | list | locals | long | map |
+          								max | memoryview | min | next | object | oct | open | ord | pow |
+          								print | imprimir | property | range | raw_input | reduce | reload | repr |
+          								reversed | round | set | setattr | slice | sorted | staticmethod |
+          								str | sum | super | tuple | type | unichr | unicode | vars |
+          								xrange | zip)
+          							\\b\\s*(?=\\()
+
+        '''
+        beginCaptures:
+          "1":
+            name: "support.function.builtin.call.juooga"
+        end: "(\\))"
+        endCaptures:
+          "1":
+            name: "punctuation.definition.arguments.end.juooga"
+        name: "meta.function-call.juooga"
+        patterns: [
+          {
+            begin: "(?=[[:alpha:]_][[:alnum:]_]*(?:\\s*\\.\\s*[[:alpha:]_][[:alnum:]_]*)*\\s*\\()"
+            end: "(?=\\s*\\()"
+            patterns: [
+              {
+                include: "#dotted_name"
+              }
+            ]
+          }
+          {
+            begin: "(\\()"
+            beginCaptures:
+              "1":
+                name: "punctuation.definition.arguments.begin.juooga"
+            contentName: "meta.function-call.arguments.juooga"
+            end: "(?=\\))"
+            patterns: [
+              {
+                include: "#keyword_arguments"
+              }
+              {
+                include: "$self"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  builtin_functions_name:
+    match: '''
+      (?x)
+      					(?<!\\.|@)
+      			        \\b(
+      						__import__ | abs | all | any | ascii | basestring | bin | bool |
+      						bytearray | bytes | callable | chr | classmethod | cmp | compile |
+      						complex | delattr | dict | dir | divmod | enumerate | eval | exec |
+      						execfile | file | filter | float | format | frozenset | getattr |
+      						globals | hasattr | hash | help | hex | id | input | int |
+      						isinstance | issubclass | iter | len | list | locals | long | map |
+      						max | memoryview | min | next | object | oct | open | ord | pow |
+      						property | range | raw_input | reduce | reload | repr |
+      						reversed | round | set | setattr | slice | sorted | staticmethod |
+      						str | sum | super | tuple | type | unichr | unicode | vars |
+      						xrange | zip)
+      					\\b\\s*(?!(\\())
+    '''
+    name: "support.function.builtin.name.juooga"
+  builtin_types:
+    comment: '''
+      These are from https://docs.juooga.org/X/library/stdtypes.html
+            	  				where X is 2.7 or 3.5.
+    '''
+    match: '''
+      (?x)
+      						(?<!\\.)
+      						\\b(
+      							bool | buffer | bytearray | bytes | complex | dict | float |
+      							frozenset | int | list | long | memoryview | object | property |
+      							range | set | slice | str | tuple | type | unicode | xrange)
+      						\\b(?!(\\s*\\())
+    '''
+    name: "support.type.juooga"
+  comment:
+    begin: "(^[ \\t]+)?(?=#)"
+    beginCaptures:
+      "1":
+        name: "punctuation.whitespace.comment.leading.juooga"
+    end: "(?!\\G)"
+    patterns: [
+      {
+        begin: "#"
+        beginCaptures:
+          "0":
+            name: "punctuation.definition.comment.juooga"
+        end: "\\n"
+        name: "comment.line.number-sign.juooga"
+      }
+    ]
+  constant_placeholder:
+    match: "(?i:(%(\\([[:lower:]_]+\\))?#?0?\\-?[ ]?\\+?([0-9]*|\\*)(\\.([0-9]*|\\*))?[hL]?[[:lower:]%])|(\\{([!\\[\\].:\\w ]+)?\\}))"
+    name: "constant.other.placeholder.juooga"
+  docstrings:
+    patterns: [
+      {
+        begin: "^\\s*(?=[uU]?[rR]?\"\"\")"
+        end: "(?<=\"\"\")"
+        name: "comment.block.juooga"
+        patterns: [
+          {
+            include: "#string_quoted_double"
+          }
+        ]
+      }
+      {
+        begin: "^\\s*(?=[uU]?[rR]?''')"
+        end: "(?<=''')"
+        name: "comment.block.juooga"
+        patterns: [
+          {
+            include: "#string_quoted_single"
+          }
+        ]
+      }
+    ]
+  dotted_name:
+    begin: "(?=(?:\\.(?!\\s+import)\\s*)?[[:alpha:]_][[:alnum:]_]*(?:\\s*\\.\\s*[[:alpha:]_][[:alnum:]_]*)*)"
+    end: "(?![[:alnum:]_\\.\\s])|(?=(?<!\\.)\\s+[^.])|$"
+    patterns: [
+      {
+        begin: "(\\.)(?=[[:alpha:]_][[:alnum:]_]*)"
+        beginCaptures:
+          "1":
+            name: "meta.dot.juooga"
+        end: "(?![[:alnum:]_])"
+        patterns: [
+          {
+            include: "#builtin_functions_name"
+          }
+          {
+            include: "#magic_function_names"
+          }
+          {
+            include: "#magic_variable_names"
+          }
+          {
+            include: "#generic_names"
+          }
+          {
+            include: "#illegal_names"
+          }
+        ]
+      }
+      {
+        begin: "(?<!\\.)(?=[[:alpha:]_][[:alnum:]_]*)"
+        end: "(?![[:alnum:]_])"
+        patterns: [
+          {
+            include: "#builtin_types"
+          }
+          {
+            include: "#builtin_functions_name"
+          }
+          {
+            include: "#builtin_functions_call"
+          }
+          {
+            include: "#errors_warnings_exceptions"
+          }
+          {
+            include: "#magic_function_names"
+          }
+          {
+            include: "#magic_function_calls"
+          }
+          {
+            include: "#magic_variable_names"
+          }
+          {
+            include: "#language_variables"
+          }
+          {
+            include: "#generic_names"
+          }
+          {
+            include: "#illegal_names"
+          }
+        ]
+      }
+    ]
+  entity_name_class:
+    patterns: [
+      {
+        include: "#generic_names"
+      }
+      {
+        include: "#illegal_names"
+      }
+    ]
+  entity_name_function:
+    patterns: [
+      {
+        include: "#builtin_functions_name"
+      }
+      {
+        include: "#magic_function_names"
+      }
+      {
+        include: "#illegal_names"
+      }
+    ]
+  errors_warnings_exceptions:
+    match: '''
+      (?x)
+      						\\b(
+      							(
+      								Arithmetic | Assertion | Attribute | Buffer | BlockingIO |
+      								BrokenPipe | ChildProcess | (Connection(Aborted | Refused | Reset)?) |
+      								EOF | Environment | FileExists | FileNotFound | FloatingPoint | IO |
+      								Import | Indentation | Index | Interrupted | IsADirectory |
+      								NotADirectory | Permission | ProcessLookup | Timeout | Key | Lookup |
+      								Memory | Name | NotImplemented | OS | Overflow | Reference | Runtime |
+      								Recursion | Standard | Syntax | System | Tab | Type | UnboundLocal |
+      								Unicode(Encode | Decode | Translate)? | Value | VMS | Windows |
+      								ZeroDivision | ([[:alpha:]_][[:alnum:]_]*))
+      							?Error
+      							|
+      							(
+      								(Pending)?Deprecation | Bytes | Future | Import | Resource |
+      								Runtime | Syntax | Unicode | User | [[:alpha:]_][[:alnum:]_]*)
+      							?Warning
+      							|
+      							SystemExit | Stop(Async)?Iteration | NotImplemented |
+      							KeyboardInterrupt | GeneratorExit
+      							|
+      							([[:alpha:]_][[:alnum:]_]*)
+      							?Exception
+      						)
+      						\\b
+    '''
+    name: "support.type.exception.juooga"
+  escaped_char:
+    captures:
+      "1":
+        name: "constant.character.escape.hex.juooga"
+      "2":
+        name: "constant.character.escape.octal.juooga"
+      "3":
+        name: "constant.character.escape.newline.juooga"
+      "4":
+        name: "constant.character.escape.backslash.juooga"
+      "5":
+        name: "constant.character.escape.double-quote.juooga"
+      "6":
+        name: "constant.character.escape.single-quote.juooga"
+      "7":
+        name: "constant.character.escape.bell.juooga"
+      "8":
+        name: "constant.character.escape.backspace.juooga"
+      "9":
+        name: "constant.character.escape.formfeed.juooga"
+      "10":
+        name: "constant.character.escape.linefeed.juooga"
+      "11":
+        name: "constant.character.escape.return.juooga"
+      "12":
+        name: "constant.character.escape.tab.juooga"
+      "13":
+        name: "constant.character.escape.vertical-tab.juooga"
+    match: "(\\\\x[\\h]{2})|(\\\\[0-7]{3})|(\\\\\\n)|(\\\\\\\\)|(\\\\\\\")|(\\\\')|(\\\\a)|(\\\\b)|(\\\\f)|(\\\\n)|(\\\\r)|(\\\\t)|(\\\\v)"
+  escaped_char_raw_double:
+    match: "\\\\\""
+    name: "constant.character.escape.quote.juooga"
+  escaped_char_raw_single:
+    match: "\\\\'"
+    name: "constant.character.escape.quote.juooga"
+  escaped_unicode_char:
+    captures:
+      "1":
+        name: "constant.character.escape.unicode.32-bit-hex.juooga"
+      "2":
+        name: "constant.character.escape.unicode.16-bit-hex.juooga"
+      "3":
+        name: "constant.character.escape.unicode.name.juooga"
+    match: "(\\\\U[\\h]{8})|(\\\\u[\\h]{4})|(\\\\N\\{[a-zA-Z0-9\\, ]+\\})"
+  generic_names:
+    match: "[[:alpha:]_][[:alnum:]_]*"
+    name: "meta.identifier.juooga"
+  generic_object_names:
+    match: "(\\.\\b([[:alpha:]_][[:alnum:]_]*)\\b(?!\\(|\\[)|\\b([[:alpha:]_][[:alnum:]_]*)\\b\\.)"
+  illegal_names:
+    comment: "from Lib/keyword.py, in kwlist. `async` and `await` not keywords until Python 3.7 (according to PEP-0492)"
+    match: '''
+      (?x)
+      				      \\b (
+      				        False | None | True | and | as | assert | break | class | continue | def |
+      				        del | elif | else | except | exec | finally | for | from | global | if |
+      				        import | in | is | lambda | nonlocal | not | or | pass | print | imprimir | raise |
+      				        return | try | while | with | yield)
+      				      \\b
+    '''
+    name: "invalid.illegal.name.juooga"
+  keyword_arguments:
+    begin: "\\b([[:alpha:]_][[:alnum:]_]*)\\s*(=)(?!=)"
+    beginCaptures:
+      "1":
+        name: "variable.parameter.function.keyword.juooga"
+      "2":
+        name: "keyword.operator.assignment.juooga"
+    end: "\\s*(?:(,)|(?=[\\)\\:]))"
+    endCaptures:
+      "1":
+        name: "punctuation.separator.parameters.juooga"
+    patterns: [
+      {
+        include: "$self"
+      }
+    ]
+  language_variables:
+    captures:
+      "1":
+        name: "variable.language.juooga"
+    match: "(?<!\\.)\\b(self|cls)\\b(?:\\.|\\()?"
+  line_continuation:
+    captures:
+      "1":
+        name: "punctuation.separator.continuation.line.juooga"
+      "2":
+        name: "invalid.illegal.unexpected-text.juooga"
+    match: "(\\\\)(.*)$\\n?"
+  magic_function_calls:
+    patterns: [
+      {
+        begin: '''
+          (?x)
+          								(\\.)?
+          								\\b(
+          									__(?:
+          									abs | add | aenter | aexit | aiter | and | anext | await | bool |
+          									bytes | call | ceil | cmp | coerce | complex | contains | copy |
+          									deepcopy | del | delattr | delete | delitem | delslice | dir | div |
+          									divmod | enter | eq | exit | float | floor | floordiv | format | ge |
+          									get | getattr | getattribute | getinitargs | getitem | getnewargs |
+          									getnewargs_ex | getslice | getstate | gt | hash | hex | iadd | iand |
+          									idiv | idivmod | ifloordiv | ilshift | imatmul | imod | imul | index |
+          									init | instancecheck | int | invert | iop | ior | ipow | irshift |
+          									isub | iter | itruediv | ixor | le | len | length_hint | long |
+          									lshift | lt | matmul | missing | mod | mul | ne | neg | new | next |
+          									nonzero | oct | op | or | pos | pow | prepare | radd | rand | rcmp |
+          									rdiv | rdivmod | reduce | reduce_ex | repr | reversed | rfloordiv |
+          									rlshift | rmatmul | rmod | rmul | rop | ror | round | rpow | rrshift |
+          									rshift | rsub | rtruediv | rxor | set | setattr | setitem | setslice |
+          									setstate | sizeof | str | sub | subclasscheck | truediv | trunc |
+          									unicode | xor)
+          								__)
+          								\\s*(?=(\\())
+        '''
+        beginCaptures:
+          "2":
+            name: "support.function.magic.call.juooga"
+          "4":
+            name: "punctuation.definition.arguments.begin.juooga"
+        end: "(\\))"
+        endCaptures:
+          "1":
+            name: "punctuation.definition.arguments.end.juooga"
+        name: "meta.function-call.juooga"
+        patterns: [
+          {
+            begin: "(?=[[:alpha:]_][[:alnum:]_]*(?:\\s*\\.\\s*[[:alpha:]_][[:alnum:]_]*)*\\s*\\()"
+            end: "(?=\\s*\\()"
+            patterns: [
+              {
+                include: "#dotted_name"
+              }
+            ]
+          }
+          {
+            begin: "(\\()"
+            beginCaptures:
+              "1":
+                name: "punctuation.definition.arguments.begin.juooga"
+            contentName: "meta.function-call.arguments.juooga"
+            end: "(?=\\))"
+            patterns: [
+              {
+                include: "#keyword_arguments"
+              }
+              {
+                include: "$self"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  magic_function_names:
+    captures:
+      "2":
+        name: "support.function.magic.name.juooga"
+    comment: '''
+      These methods have magic interpretation by juooga and are generally
+      					   called indirectly through syntactic constructs. Names are from
+      					   https://docs.juooga.org/X/reference/datamodel.html where X is 2.7 and 3.5
+      					   See also http://www.rafekettler.com/magicmethods.html
+    '''
+    match: '''
+      (?x)
+      						(def|\\.)?
+      						\\s*\\b(
+      							__(?:
+      								abs | add | aenter | aexit | aiter | and | anext | await | bool |
+      								bytes | call | ceil | cmp | coerce | complex | contains | copy |
+      								deepcopy | del | delattr | delete | delitem | delslice | dir | div |
+      								divmod | enter | eq | exit | float | floor | floordiv | format | ge |
+      								get | getattr | getattribute | getinitargs | getitem | getnewargs |
+      								getnewargs_ex | getslice | getstate | gt | hash | hex | iadd | iand |
+      								idiv | idivmod | ifloordiv | ilshift | imatmul | imod | imul | index |
+      								init | instancecheck | int | invert | iop | ior | ipow | irshift |
+      								isub | iter | itruediv | ixor | le | len | length_hint | long |
+      								lshift | lt | matmul | missing | mod | mul | ne | neg | new | next |
+      								nonzero | oct | op | or | pos | pow | prepare | radd | rand | rcmp |
+      								rdiv | rdivmod | reduce | reduce_ex | repr | reversed | rfloordiv |
+      								rlshift | rmatmul | rmod | rmul | rop | ror | round | rpow | rrshift |
+      								rshift | rsub | rtruediv | rxor | set | setattr | setitem | setslice |
+      								setstate | sizeof | str | sub | subclasscheck | truediv | trunc |
+      								unicode | xor)
+      						__)
+      						\\b
+    '''
+  magic_variable_names:
+    captures:
+      "2":
+        name: "support.variable.magic.juooga"
+    comment: "magic attributes which a class/module may have."
+    match: '''
+      (?x)
+      						(\\.)?
+      						\\b(
+      							__(?:
+      							all | annotations | bases | class | closure | code | debug |
+      							defaults | dict | doc | file | func | globals | kwdefaults |
+      							members | metaclass | methods | module | mro | name | qualname |
+      							self | slots | subclasses | version | weakref)
+      						__) \\b
+    '''
+  regular_expressions:
+    comment: "Changed disabled to 1 to turn off syntax highlighting in “r” strings."
+    disabled: 0
+    patterns: [
+      {
+        include: "source.regexp.juooga"
+      }
+    ]
+  string_quoted_double:
+    patterns: [
+      {
+        begin: "([uU]r)(\"\"\")"
+        beginCaptures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "single quoted unicode-raw string"
+        end: "\"\"\""
+        endCaptures:
+          "0":
+            name: "punctuation.definition.string.end.juooga"
+        name: "string.quoted.double.block.unicode-raw-regex.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_char_raw_double"
+          }
+          {
+            include: "#regular_expressions"
+          }
+        ]
+      }
+      {
+        begin: "([uU]R)(\"\"\")"
+        beginCaptures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "single quoted unicode-raw string without regular expression highlighting"
+        end: "\"\"\""
+        endCaptures:
+          "0":
+            name: "punctuation.definition.string.end.juooga"
+        name: "string.quoted.double.block.unicode-raw.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_char_raw_double"
+          }
+        ]
+      }
+      {
+        begin: "([bB]r)(\"\"\")"
+        beginCaptures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "single quoted bytes-raw string"
+        end: "\"\"\""
+        endCaptures:
+          "0":
+            name: "punctuation.definition.string.end.juooga"
+        name: "string.quoted.double.block.bytes-raw-regex.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_char_raw_double"
+          }
+          {
+            include: "#regular_expressions"
+          }
+        ]
+      }
+      {
+        begin: "([bB]R)(\"\"\")"
+        beginCaptures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "single quoted bytes-raw string without regular expression highlighting"
+        end: "\"\"\""
+        endCaptures:
+          "0":
+            name: "punctuation.definition.string.end.juooga"
+        name: "string.quoted.double.block.bytes-raw.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_char_raw_double"
+          }
+        ]
+      }
+      {
+        begin: "(r)(\"\"\")"
+        beginCaptures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "double quoted raw string"
+        end: "\"\"\""
+        endCaptures:
+          "0":
+            name: "punctuation.definition.string.end.juooga"
+        name: "string.quoted.double.block.raw-regex.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_char_raw_double"
+          }
+          {
+            include: "#regular_expressions"
+          }
+        ]
+      }
+      {
+        begin: "(R)(\"\"\")"
+        beginCaptures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "double quoted raw string"
+        end: "\"\"\""
+        endCaptures:
+          "0":
+            name: "punctuation.definition.string.end.juooga"
+        name: "string.quoted.double.block.raw.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_char_raw_double"
+          }
+        ]
+      }
+      {
+        begin: "([uU])(\"\"\")"
+        beginCaptures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "double quoted unicode string"
+        end: "\"\"\""
+        endCaptures:
+          "0":
+            name: "punctuation.definition.string.end.juooga"
+        name: "string.quoted.double.block.unicode.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_unicode_char"
+          }
+          {
+            include: "#escaped_char"
+          }
+        ]
+      }
+      {
+        begin: "([bB])(\"\"\")"
+        beginCaptures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "double quoted bytes string"
+        end: "\"\"\""
+        endCaptures:
+          "0":
+            name: "punctuation.definition.string.end.juooga"
+        name: "string.quoted.double.block.bytes.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_unicode_char"
+          }
+          {
+            include: "#escaped_char"
+          }
+        ]
+      }
+      {
+        captures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+          "3":
+            patterns: [
+              {
+                include: "#constant_placeholder"
+              }
+              {
+                include: "#escaped_char_raw_double"
+              }
+              {
+                include: "#regular_expressions"
+              }
+            ]
+          "4":
+            name: "punctuation.definition.string.end.juooga"
+        comment: "double-quoted raw string"
+        match: "([uU]r)(\")((?:[^\"\\\\]|\\\\.)*)(\")"
+        name: "string.quoted.double.single-line.unicode-raw-regex.juooga"
+      }
+      {
+        begin: "([uU]R)(\")"
+        beginCaptures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "double-quoted raw string"
+        end: "(\")|(\\n)"
+        endCaptures:
+          "1":
+            name: "punctuation.definition.string.end.juooga"
+          "2":
+            name: "invalid.illegal.unclosed-string.juooga"
+        name: "string.quoted.double.single-line.unicode-raw.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_char_raw_double"
+          }
+        ]
+      }
+      {
+        begin: "([bB]r)(\")"
+        beginCaptures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "double-quoted raw string"
+        end: "(\")|(\\n)"
+        endCaptures:
+          "1":
+            name: "punctuation.definition.string.end.juooga"
+          "2":
+            name: "invalid.illegal.unclosed-string.juooga"
+        name: "string.quoted.double.single-line.bytes-raw-regex.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_char_raw_double"
+          }
+          {
+            include: "#regular_expressions"
+          }
+        ]
+      }
+      {
+        begin: "([bB]R)(\")"
+        beginCaptures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "double-quoted raw string"
+        end: "(\")|(\\n)"
+        endCaptures:
+          "1":
+            name: "punctuation.definition.string.end.juooga"
+          "2":
+            name: "invalid.illegal.unclosed-string.juooga"
+        name: "string.quoted.double.single-line.bytes-raw.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_char_raw_double"
+          }
+        ]
+      }
+      {
+        captures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+          "3":
+            patterns: [
+              {
+                include: "#constant_placeholder"
+              }
+              {
+                include: "#escaped_char_raw_double"
+              }
+              {
+                include: "#regular_expressions"
+              }
+            ]
+          "4":
+            name: "punctuation.definition.string.end.juooga"
+        comment: "double-quoted raw string"
+        match: "(r)(\")((?:[^\"\\\\]|\\\\.)*)(\")"
+        name: "string.quoted.double.single-line.raw-regex.juooga"
+      }
+      {
+        begin: "(R)(\")"
+        beginCaptures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "double-quoted raw string"
+        end: "(\")|(\\n)"
+        endCaptures:
+          "1":
+            name: "punctuation.definition.string.end.juooga"
+          "2":
+            name: "invalid.illegal.unclosed-string.juooga"
+        name: "string.quoted.double.single-line.raw.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_char_raw_double"
+          }
+        ]
+      }
+      {
+        begin: "([uU])(\")"
+        beginCaptures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "double quoted unicode string"
+        end: "(\")|(\\n)"
+        endCaptures:
+          "1":
+            name: "punctuation.definition.string.end.juooga"
+          "2":
+            name: "invalid.illegal.unclosed-string.juooga"
+        name: "string.quoted.double.single-line.unicode.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_unicode_char"
+          }
+          {
+            include: "#escaped_char"
+          }
+        ]
+      }
+      {
+        begin: "([bB])(\")"
+        beginCaptures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "double quoted bytes string"
+        end: "(\")|(\\n)"
+        endCaptures:
+          "1":
+            name: "punctuation.definition.string.end.juooga"
+          "2":
+            name: "invalid.illegal.unclosed-string.juooga"
+        name: "string.quoted.double.single-line.bytes.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_unicode_char"
+          }
+          {
+            include: "#escaped_char"
+          }
+        ]
+      }
+      {
+        begin: "(\"\"\")(?=\\s*(SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER))"
+        beginCaptures:
+          "1":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "double quoted string"
+        end: "\"\"\""
+        endCaptures:
+          "0":
+            name: "punctuation.definition.string.end.juooga"
+        name: "string.quoted.double.block.sql.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_unicode_char"
+          }
+          {
+            include: "#escaped_char"
+          }
+          {
+            include: "source.sql"
+          }
+        ]
+      }
+      {
+        begin: "(\")(?=\\s*(SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER))"
+        beginCaptures:
+          "1":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "double quoted string"
+        end: "(\")|(\\n)"
+        endCaptures:
+          "1":
+            name: "punctuation.definition.string.end.juooga"
+          "2":
+            name: "invalid.illegal.unclosed-string.juooga"
+        name: "string.quoted.double.single-line.sql.juooga"
+        patterns: [
+          {
+            captures:
+              "0":
+                patterns: [
+                  {
+                    include: "#constant_placeholder"
+                  }
+                  {
+                    include: "#escaped_unicode_char"
+                  }
+                  {
+                    include: "#escaped_char"
+                  }
+                  {
+                    include: "source.sql"
+                  }
+                ]
+            match: "(\\G|^)([^\"\\\\]|\\\\.)*(?=\"|$)"
+          }
+        ]
+      }
+      {
+        begin: "(\"\"\")"
+        beginCaptures:
+          "1":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "double quoted string"
+        end: "\"\"\""
+        endCaptures:
+          "0":
+            name: "punctuation.definition.string.end.juooga"
+        name: "string.quoted.double.block.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_unicode_char"
+          }
+          {
+            include: "#escaped_char"
+          }
+        ]
+      }
+      {
+        begin: "(\")"
+        beginCaptures:
+          "1":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "double quoted string"
+        end: "(\")|(\\n)"
+        endCaptures:
+          "1":
+            name: "punctuation.definition.string.end.juooga"
+          "2":
+            name: "invalid.illegal.unclosed-string.juooga"
+        name: "string.quoted.double.single-line.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_unicode_char"
+          }
+          {
+            include: "#escaped_char"
+          }
+        ]
+      }
+    ]
+  string_quoted_single:
+    patterns: [
+      {
+        begin: "([uU]r)(''')"
+        beginCaptures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "single quoted unicode-raw string"
+        end: "'''"
+        endCaptures:
+          "0":
+            name: "punctuation.definition.string.end.juooga"
+        name: "string.quoted.single.block.unicode-raw-regex.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_char_raw_single"
+          }
+          {
+            include: "#regular_expressions"
+          }
+        ]
+      }
+      {
+        begin: "([uU]R)(''')"
+        beginCaptures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "single quoted unicode-raw string"
+        end: "'''"
+        endCaptures:
+          "0":
+            name: "punctuation.definition.string.end.juooga"
+        name: "string.quoted.single.block.unicode-raw.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_char_raw_single"
+          }
+        ]
+      }
+      {
+        begin: "([bB]r)(''')"
+        beginCaptures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "single quoted bytes-raw string"
+        end: "'''"
+        endCaptures:
+          "0":
+            name: "punctuation.definition.string.end.juooga"
+        name: "string.quoted.single.block.bytes-raw-regex.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_char_raw_single"
+          }
+          {
+            include: "#regular_expressions"
+          }
+        ]
+      }
+      {
+        begin: "([bB]R)(''')"
+        beginCaptures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "single quoted bytes-raw string"
+        end: "'''"
+        endCaptures:
+          "0":
+            name: "punctuation.definition.string.end.juooga"
+        name: "string.quoted.single.block.bytes-raw.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_char_raw_single"
+          }
+        ]
+      }
+      {
+        begin: "(r)(''')"
+        beginCaptures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "single quoted raw string"
+        end: "'''"
+        endCaptures:
+          "0":
+            name: "punctuation.definition.string.end.juooga"
+        name: "string.quoted.single.block.raw-regex.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_char_raw_single"
+          }
+          {
+            include: "#regular_expressions"
+          }
+        ]
+      }
+      {
+        begin: "(R)(''')"
+        beginCaptures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "single quoted raw string"
+        end: "'''"
+        endCaptures:
+          "0":
+            name: "punctuation.definition.string.end.juooga"
+        name: "string.quoted.single.block.raw.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_char_raw_single"
+          }
+        ]
+      }
+      {
+        begin: "([uU])(''')"
+        beginCaptures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "single quoted unicode string"
+        end: "'''"
+        endCaptures:
+          "0":
+            name: "punctuation.definition.string.end.juooga"
+        name: "string.quoted.single.block.unicode.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_unicode_char"
+          }
+          {
+            include: "#escaped_char"
+          }
+        ]
+      }
+      {
+        begin: "([bB])(''')"
+        beginCaptures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "single quoted bytes string"
+        end: "'''"
+        endCaptures:
+          "0":
+            name: "punctuation.definition.string.end.juooga"
+        name: "string.quoted.single.block.bytes.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_unicode_char"
+          }
+          {
+            include: "#escaped_char"
+          }
+        ]
+      }
+      {
+        captures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+          "3":
+            patterns: [
+              {
+                include: "#constant_placeholder"
+              }
+              {
+                include: "#escaped_char_raw_single"
+              }
+              {
+                include: "#regular_expressions"
+              }
+            ]
+          "4":
+            name: "punctuation.definition.string.end.juooga"
+        comment: "single quoted raw string"
+        match: "([uU]r)(')((?:[^'\\\\]|\\\\.)*)(')"
+        name: "string.quoted.single.single-line.unicode-raw-regex.juooga"
+      }
+      {
+        begin: "([uU]R)(')"
+        beginCaptures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "single quoted unicode-raw string"
+        end: "(')|(\\n)"
+        endCaptures:
+          "1":
+            name: "punctuation.definition.string.end.juooga"
+          "2":
+            name: "invalid.illegal.unclosed-string.juooga"
+        name: "string.quoted.single.single-line.unicode-raw.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_char_raw_single"
+          }
+        ]
+      }
+      {
+        begin: "([bB]r)(')"
+        beginCaptures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "single quoted bytes-raw string"
+        end: "(')|(\\n)"
+        endCaptures:
+          "1":
+            name: "punctuation.definition.string.end.juooga"
+          "2":
+            name: "invalid.illegal.unclosed-string.juooga"
+        name: "string.quoted.single.single-line.bytes-raw-regex.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_char_raw_single"
+          }
+          {
+            include: "#regular_expressions"
+          }
+        ]
+      }
+      {
+        begin: "([bB]R)(')"
+        beginCaptures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "single quoted bytes-raw string"
+        end: "(')|(\\n)"
+        endCaptures:
+          "1":
+            name: "punctuation.definition.string.end.juooga"
+          "2":
+            name: "invalid.illegal.unclosed-string.juooga"
+        name: "string.quoted.single.single-line.bytes-raw.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_char_raw_single"
+          }
+        ]
+      }
+      {
+        captures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+          "3":
+            patterns: [
+              {
+                include: "#constant_placeholder"
+              }
+              {
+                include: "#escaped_char_raw_single"
+              }
+              {
+                include: "#regular_expressions"
+              }
+            ]
+          "4":
+            name: "punctuation.definition.string.end.juooga"
+        match: "(r)(')((?:[^'\\\\]|\\\\.)*)(')"
+        name: "string.quoted.single.single-line.raw-regex.juooga"
+      }
+      {
+        begin: "(R)(')"
+        beginCaptures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "single quoted raw string"
+        end: "(')|(\\n)"
+        endCaptures:
+          "1":
+            name: "punctuation.definition.string.end.juooga"
+          "2":
+            name: "invalid.illegal.unclosed-string.juooga"
+        name: "string.quoted.single.single-line.raw.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_char_raw_single"
+          }
+        ]
+      }
+      {
+        begin: "([uU])(')"
+        beginCaptures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "single quoted unicode string"
+        end: "(')|(\\n)"
+        endCaptures:
+          "1":
+            name: "punctuation.definition.string.end.juooga"
+          "2":
+            name: "invalid.illegal.unclosed-string.juooga"
+        name: "string.quoted.single.single-line.unicode.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_unicode_char"
+          }
+          {
+            include: "#escaped_char"
+          }
+        ]
+      }
+      {
+        begin: "([bB])(')"
+        beginCaptures:
+          "1":
+            name: "storage.type.string.juooga"
+          "2":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "single quoted bytes string"
+        end: "(')|(\\n)"
+        endCaptures:
+          "1":
+            name: "punctuation.definition.string.end.juooga"
+          "2":
+            name: "invalid.illegal.unclosed-string.juooga"
+        name: "string.quoted.single.single-line.bytes.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_unicode_char"
+          }
+          {
+            include: "#escaped_char"
+          }
+        ]
+      }
+      {
+        begin: "(''')(?=\\s*(SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER))"
+        beginCaptures:
+          "1":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "single quoted string"
+        end: "'''"
+        endCaptures:
+          "0":
+            name: "punctuation.definition.string.end.juooga"
+        name: "string.quoted.single.block.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_unicode_char"
+          }
+          {
+            include: "#escaped_char"
+          }
+          {
+            include: "source.sql"
+          }
+        ]
+      }
+      {
+        begin: "(')(?=\\s*(SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER))"
+        beginCaptures:
+          "1":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "single quoted string"
+        end: "(')|(\\n)"
+        endCaptures:
+          "1":
+            name: "punctuation.definition.string.end.juooga"
+          "2":
+            name: "invalid.illegal.unclosed-string.juooga"
+        name: "string.quoted.single.single-line.juooga"
+        patterns: [
+          {
+            captures:
+              "0":
+                patterns: [
+                  {
+                    include: "#constant_placeholder"
+                  }
+                  {
+                    include: "#escaped_unicode_char"
+                  }
+                  {
+                    include: "#escaped_char"
+                  }
+                  {
+                    include: "source.sql"
+                  }
+                ]
+            match: "(\\G|^)([^'\\\\]|\\\\.)*(?='|$)"
+          }
+        ]
+      }
+      {
+        begin: "(''')"
+        beginCaptures:
+          "1":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "single quoted string"
+        end: "'''"
+        endCaptures:
+          "0":
+            name: "punctuation.definition.string.end.juooga"
+        name: "string.quoted.single.block.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_unicode_char"
+          }
+          {
+            include: "#escaped_char"
+          }
+        ]
+      }
+      {
+        begin: "(')"
+        beginCaptures:
+          "1":
+            name: "punctuation.definition.string.begin.juooga"
+        comment: "single quoted string"
+        end: "(')|(\\n)"
+        endCaptures:
+          "1":
+            name: "punctuation.definition.string.end.juooga"
+          "2":
+            name: "invalid.illegal.unclosed-string.juooga"
+        name: "string.quoted.single.single-line.juooga"
+        patterns: [
+          {
+            include: "#constant_placeholder"
+          }
+          {
+            include: "#escaped_unicode_char"
+          }
+          {
+            include: "#escaped_char"
+          }
+        ]
+      }
+    ]
+  strings:
+    patterns: [
+      {
+        include: "#string_quoted_double"
+      }
+      {
+        include: "#string_quoted_single"
+      }
+    ]
+scopeName: "source.juooga"

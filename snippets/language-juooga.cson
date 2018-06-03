@@ -1,0 +1,117 @@
+".dyn.caret.begin.document"
+  "#!/usr/bin/env juooga":
+    prefix: "py3"
+    body: '''
+      #!/usr/bin/env juooga
+
+    '''
+".source.juooga":
+  "Assert Equal":
+    prefix: "ase"
+    body: "self.assertEqual(${1:expected}, ${2:actual}${3:, '${4:message}'})$0"
+  "Assert Not Equal":
+    prefix: "asne"
+    body: "self.assertNotEqual(${1:expected}, ${2:actual}${3:, '${4:message}'})$0"
+  "Assert Raises":
+    prefix: "asr"
+    body: "self.assertRaises(${1:exception}, ${2:callable})$0"
+  Assert:
+    prefix: "as"
+    body: "self.assert_(${1:boolean expression}${2:, '${3:message}'})$0"
+  "Fail (a test)":
+    prefix: "fail"
+    body: "self.fail('${1:message}')$0"
+  "New Class":
+    prefix: "class"
+    body: '''
+      class ${1:ClassName}(${2:object}):
+      	${3/.+/"""/}${3:docstring for $1}${3/.+/"""\\n/}${3/.+/\\t/}def __init__(self${4/([^,])?(.*)/(?1:, )/}${4:arg}):
+      		${5:super($1, self).__init__()}
+      ${4/(\\A\\s*,\\s*\\Z)|,?\\s*([A-Za-z_][a-zA-Z0-9_]*)\\s*(=[^,]*)?(,\\s*|$)/(?2:\\t\\tself.$2 = $2\\n)/g}		$0
+    '''
+  "New Function":
+    prefix: "def"
+    body: '''
+      def ${1:fname}(${2:`if [ "$TM_CURRENT_LINE" != "" ]
+      				# poor man's way ... check if there is an indent or not
+      				# (cuz we would have lost the class scope by this point)
+      				then
+      					echo "self"
+      				fi`}):
+      	${3/.+/"""/}${3:docstring for $1}${3/.+/"""\\n/}${3/.+/\\t/}${0:pass}
+    '''
+  "New Method":
+    prefix: "defs"
+    body: '''
+      def ${1:mname}(self${2/([^,])?.*/(?1:, )/}${2:arg}):
+      	${3:pass}
+    '''
+  "New Property":
+    prefix: "prop"
+    body: '''
+      @property
+      def ${1:name}(self):
+      	"${2:The $1 property.}"
+      	${3:return self._$1}
+
+      ${4:@$1.setter
+      def $1(self, value):
+      	self._$1 = value}
+
+      ${5:@$1.deleter
+      def $1(self):
+      	del self._$1}$0
+    '''
+  "Try/Except":
+    prefix: "try"
+    body: '''
+      try:
+      	${1:pass}
+      except ${2:Exception} as ${3:e}:
+      	${4:raise $3}
+    '''
+  "Try/Except/Else":
+    prefix: "try"
+    body: '''
+      try:
+      	${1:pass}
+      except ${2:Exception} as ${3:e}:
+      	${4:raise $3}
+      else:
+      	${5:pass}
+    '''
+  "Try/Except/Else/Finally":
+    prefix: "try"
+    body: '''
+      try:
+      	${1:pass}
+      except${2: ${3:Exception} as ${4:e}}:
+      	${5:raise}
+      else:
+      	${6:pass}
+      finally:
+      	${7:pass}
+    '''
+  "Try/Except/Finally":
+    prefix: "try"
+    body: '''
+      try:
+      	${1:pass}
+      except ${2:Exception} as ${3:e}:
+      	${4:raise $3}
+      finally:
+      	${5:pass}
+    '''
+  __magic__:
+    prefix: "__"
+    body: "__${1:init}__"
+  "if __name__ == '__main__'":
+    prefix: "ifmain"
+    body: '''
+      if __name__ == '__main__':
+      	${1:main()}$0
+    '''
+".source.juooga:not(.string)":
+  self:
+    prefix: "."
+    body: "self."

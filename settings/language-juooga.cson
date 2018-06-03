@@ -1,0 +1,6 @@
+".source.python":
+  editor:
+    commentStart: "// "
+    increaseIndentPattern: "^\\s*(class|((async\\s+)?(def|with|for))|elif|else|except|finally|if|try|while)\\b.*:\\s*$|(\\{|\\[)\\s*$"
+    decreaseIndentPattern: "^\\s*(elif|else|except|finally)\\b.*:|^\\s*(\\}|\\])"
+    foldEndPattern: "^\\s*\"\"\"\\s*$"
