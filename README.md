@@ -1,4 +1,5 @@
 
+![Juooga for Atom](https://cdn.juoo.ga/atom/atom.png)
 
 > Juooga Language support in Atom
 
