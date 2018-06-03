@@ -1,4 +1,4 @@
-# Juooga Atom
+# Juooga language support in Atom
 
 ### Resources
 
