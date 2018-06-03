@@ -1,6 +1,6 @@
 {
   "name": "language-juooga",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Juooga package for Atom",
   "author": {
     "name": "Juooga",
@@ -17,6 +17,5 @@
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
